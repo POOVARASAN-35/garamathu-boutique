@@ -377,7 +377,11 @@ export default function ImageUpload({
                 }`}
               >
                 <div className="relative w-full flex-1 bg-sand-50 overflow-hidden select-none">
-                  <img src={img} alt={`${uploadType === 'category' ? 'Category' : 'Product'} image ${idx + 1}`} className="w-full h-full object-cover pointer-events-none" />
+                 <img
+                    src={img.startsWith('http') ? img : `${import.meta.env.VITE_API_URL}${img}`}
+                    alt={`${uploadType === 'category' ? 'Category' : 'Product'} image ${idx + 1}`}
+                    className="w-full h-full object-cover pointer-events-none"
+                  />
                   
                   {/* Cover Image Badge */}
                   {idx === 0 ? (
