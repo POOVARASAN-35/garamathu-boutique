@@ -86,10 +86,12 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Static files serving in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
+if (process.env.NODE_ENV === "production") {
+  app.get("/", (req, res) => {
+    res.json({
+      success: true,
+      message: "Gramathu Boutique API is running 🚀",
+    });
   });
 } else {
   app.get('/', (req, res) => {
