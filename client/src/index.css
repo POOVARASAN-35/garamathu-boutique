@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Luxury Premium Stylings Core - Rebuilt Config CJS */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    @apply tracking-wide;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    @apply text-gray-800 bg-slate-50 antialiased;
+  }
+}
+
+::selection {
+  background-color: #C23D17;
+  color: #ffffff;
+}
+
+@layer utilities {
+  /* Glassmorphism panel styling */
+  .glassmorphism {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .glassmorphism-dark {
+    background: rgba(17, 24, 39, 0.85); /* Dark Glass backdrop */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(229, 231, 235, 0.4);
+  }
+
+  /* Luxury link underline animation */
+  .luxury-underline {
+    position: relative;
+  }
+
+  .luxury-underline::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: currentColor;
+    transform-origin: bottom right;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .luxury-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  /* Custom Premium Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F8FAFC;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #C23D17; /* Sienna thumb */
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #A12F0E; /* Terracotta hover */
+  }
+
+  /* Skeleton Loading pulse animation */
+  .skeleton-box {
+    position: relative;
+    overflow: hidden;
+    background-color: #E2E8F0;
+    opacity: 0.35;
+    border-radius: 4px;
+  }
+
+  /* Ripple Button simulation styling */
+  .ripple-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .ripple-btn:active {
+    transform: scale(0.97);
+  }
+}

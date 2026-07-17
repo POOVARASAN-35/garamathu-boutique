@@ -1,0 +1,26 @@
+import express from 'express';
+import {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  getAllCustomers,
+  getCustomerById,
+  updateWishlist,
+  addAddress,
+  deleteAddress
+} from '../controllers/userController.js';
+import { verifyUser } from '../middleware/verifyUser.js';
+import { verifyAdmin } from '../middleware/verifyAdmin.js';
+
+const router = express.Router();
+
+router.post('/register', registerUser);
+router.post('/login', loginUser);
+router.get('/me', verifyUser, getUserProfile);
+router.get('/', verifyAdmin, getAllCustomers);
+router.get('/:id', verifyAdmin, getCustomerById);
+router.post('/wishlist', verifyUser, updateWishlist);
+router.post('/address', verifyUser, addAddress);
+router.delete('/address/:id', verifyUser, deleteAddress);
+
+export default router;
