@@ -116,8 +116,8 @@ export default function ImageUpload({
       });
 
       const uploadUrl = uploadType === 'category'
-        ? `http://localhost:5000/api/upload/category-images?categoryName=${encodeURIComponent(nameVal)}`
-        : 'http://localhost:5000/api/upload/product-images';
+        ? `import.meta.env.VITE_API_URL/api/upload/category-images?categoryName=${encodeURIComponent(nameVal)}`
+        : 'import.meta.env.VITE_API_URL/api/upload/product-images';
 
       xhr.open('POST', uploadUrl);
       xhr.setRequestHeader('Authorization', `Bearer ${authToken}`);

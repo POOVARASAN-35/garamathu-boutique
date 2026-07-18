@@ -72,7 +72,7 @@ export default function CartPage() {
   useEffect(() => {
     const loadRules = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/shipping-rules');
+        const res = await fetch('import.meta.env.VITE_API_URL/api/shipping-rules');
         if (res.ok) {
           const data = await res.json();
           setShippingRules(data);
@@ -204,7 +204,7 @@ export default function CartPage() {
         notes
       };
 
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('import.meta.env.VITE_API_URL/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

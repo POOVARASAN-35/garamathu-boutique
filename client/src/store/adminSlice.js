@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'import.meta.env.VITE_API_URL/api';
 
 const savedAdminToken = localStorage.getItem('admin_token');
 const savedAdminUser = localStorage.getItem('admin_user') 

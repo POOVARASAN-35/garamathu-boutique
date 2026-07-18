@@ -47,7 +47,7 @@ export default function MyOrders() {
     if (!token) return;
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('import.meta.env.VITE_API_URL/api/orders', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -95,7 +95,7 @@ export default function MyOrders() {
   const handleDownloadInvoice = async (orderId) => {
     try {
       addToast('Generating invoice PDF...', 'loading');
-      const response = await fetch(`http://localhost:5000/api/orders/invoice/${orderId}`, {
+      const response = await fetch(`import.meta.env.VITE_API_URL/api/orders/invoice/${orderId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
@@ -133,7 +133,7 @@ export default function MyOrders() {
   const handleCancelOrder = async (orderId) => {
     if (!window.confirm('Are you sure you want to cancel this order?')) return;
     try {
-      const response = await fetch('http://localhost:5000/api/orders/cancel', {
+      const response = await fetch('import.meta.env.VITE_API_URL/api/orders/cancel', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ export default function MyOrders() {
   const handleReturnOrder = async (orderId) => {
     if (!window.confirm('Are you sure you want to return this product?')) return;
     try {
-      const response = await fetch('http://localhost:5000/api/orders/return', {
+      const response = await fetch('import.meta.env.VITE_API_URL/api/orders/return', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ export default function MyOrders() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/api/orders/review', {
+      const response = await fetch('import.meta.env.VITE_API_URL/api/orders/review', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

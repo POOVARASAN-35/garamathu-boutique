@@ -21,7 +21,7 @@ Traditional Elegance with Modern Style. A luxurious fashion boutique experience 
    npm run install-all
    ```
 
-2. Start the development servers (Client on `http://localhost:5173` and Server on `http://localhost:5000`):
+2. Start the development servers (Client on `http://localhost:5173` and Server on `import.meta.env.VITE_API_URL`):
    ```bash
    npm run dev
    ```

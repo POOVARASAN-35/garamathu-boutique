@@ -85,7 +85,7 @@ export default function ProductDetails({ onQuickView }) {
   useEffect(() => {
     const fetchRules = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/shipping-rules');
+        const res = await fetch('import.meta.env.VITE_API_URL/api/shipping-rules');
         if (res.ok) {
           const data = await res.json();
           setShippingRules(data);
@@ -1339,7 +1339,7 @@ export default function ProductDetails({ onQuickView }) {
 
                         addToast('Securing order details...', 'loading');
 
-                        fetch('http://localhost:5000/api/orders', {
+                        fetch('import.meta.env.VITE_API_URL/api/orders', {
                           method: 'POST',
                           headers: {
                             'Content-Type': 'application/json',
