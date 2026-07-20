@@ -23,6 +23,7 @@ import adminAuthRoutes from './routes/adminAuthRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import shippingRuleRoutes from './routes/shippingRuleRoutes.js';
 import ShippingRule from './models/ShippingRule.js';
+import Admin from './models/Admin.js';
 
 dotenv.config();
 
@@ -31,6 +32,32 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+
+const seedAdmin = async () => {
+  try {
+    const existing = await Admin.findOne({
+      email: 'admin@gramathuboutique.com'
+    });
+
+    if (!existing) {
+      const admin = new Admin({
+        fullName: 'Super Admin',
+        email: 'admin@gramathuboutique.com',
+        password: 'Admin@123',
+        role: 'Super Admin',
+        status: true
+      });
+
+      await admin.save();
+      console.log('✅ Default admin created');
+    } else {
+      console.log('✅ Admin already exists');
+    }
+  } catch (err) {
+    console.error('Admin seed error:', err);
+  }
+};
 
 // Seeding Shipping Rules
 const seedShippingRules = async () => {
@@ -57,8 +84,9 @@ const seedShippingRules = async () => {
 };
 
 // Initialize Database
-connectDB().then(() => {
-  seedShippingRules();
+connectDB().then(async () => {
+  await seedAdmin();
+  await seedShippingRules();
 });
 
 // Middleware
