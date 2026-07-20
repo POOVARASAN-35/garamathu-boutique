@@ -1,14 +1,12 @@
+import cloudinary from '../config/cloudinary.js';
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs';
 import { verifyAdmin } from '../middleware/verifyAdmin.js';
-import { fileURLToPath } from 'url';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Helper to slugify product names for folder naming
 const slugify = (text) => {
@@ -22,30 +20,55 @@ const slugify = (text) => {
 };
 
 // Configure Storage Engine
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    let folderSlug = 'temp';
-    let baseDir = 'products';
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     let folderSlug = 'temp';
+//     let baseDir = 'products';
     
+//     if (req.originalUrl.includes('category-images')) {
+//       baseDir = 'categories';
+//       const categoryName = req.query.categoryName || req.body.categoryName || 'temp';
+//       folderSlug = slugify(categoryName);
+//     } else {
+//       const productName = req.body.productName || req.query.productName || 'temp';
+//       folderSlug = slugify(productName);
+//     }
+    
+//     const uploadDir = path.join(__dirname, `../public/uploads/${baseDir}/${folderSlug}`);
+    
+//     // Create folder structure if not exists
+//     fs.mkdirSync(uploadDir, { recursive: true });
+//     cb(null, uploadDir);
+//   },
+//   filename: (req, file, cb) => {
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//     const fileExt = path.extname(file.originalname).toLowerCase();
+//     cb(null, `img-${uniqueSuffix}${fileExt}`);
+//   }
+// });
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => {
+    let folder = 'gramathu-boutique/products';
+
     if (req.originalUrl.includes('category-images')) {
-      baseDir = 'categories';
-      const categoryName = req.query.categoryName || req.body.categoryName || 'temp';
-      folderSlug = slugify(categoryName);
+      const categoryName =
+        req.query.categoryName || req.body.categoryName || 'temp';
+
+      folder = `gramathu-boutique/categories/${slugify(categoryName)}`;
     } else {
-      const productName = req.body.productName || req.query.productName || 'temp';
-      folderSlug = slugify(productName);
+      const productName =
+        req.body.productName || req.query.productName || 'temp';
+
+      folder = `gramathu-boutique/products/${slugify(productName)}`;
     }
-    
-    const uploadDir = path.join(__dirname, `../public/uploads/${baseDir}/${folderSlug}`);
-    
-    // Create folder structure if not exists
-    fs.mkdirSync(uploadDir, { recursive: true });
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const fileExt = path.extname(file.originalname).toLowerCase();
-    cb(null, `img-${uniqueSuffix}${fileExt}`);
+
+    return {
+      folder,
+      allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+      resource_type: 'image'
+    };
   }
 });
 
@@ -86,10 +109,9 @@ router.post('/product-images', verifyAdmin, (req, res) => {
       return res.status(400).json({ success: false, message: 'No files were uploaded.' });
     }
 
-    const folderSlug = slugify(req.body.productName || 'temp');
     
     // Generate relative URLs for frontend display
-    const paths = req.files.map(file => `/uploads/products/${folderSlug}/${file.filename}`);
+    const paths = req.files.map(file => file.path);
     
     res.status(200).json({
       success: true,
@@ -116,8 +138,7 @@ router.post('/category-images', verifyAdmin, (req, res) => {
     }
 
     const categoryName = req.query.categoryName || req.body.categoryName || 'temp';
-    const folderSlug = slugify(categoryName);
-    const paths = req.files.map(file => `/uploads/categories/${folderSlug}/${file.filename}`);
+    const paths = req.files.map(file => file.path);
 
     res.json({
       success: true,
