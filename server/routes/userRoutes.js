@@ -10,6 +10,7 @@ import {
   deleteAddress,
   addToCart
 } from '../controllers/userController.js';
+import { verifyUser } from '../middleware/verifyUser.js';
 import { verifyAdmin } from '../middleware/verifyAdmin.js';
 
 const router = express.Router();
