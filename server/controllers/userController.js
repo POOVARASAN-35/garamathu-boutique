@@ -155,21 +155,42 @@ export const getCustomerById = async (req, res) => {
 };
 
 export const updateWishlist = async (req, res) => {
-  const { wishlist } = req.body;
-  if (!Array.isArray(wishlist)) {
-    return res.status(400).json({ success: false, message: 'Wishlist must be an array of product IDs' });
-  }
-
   try {
+    const { productId } = req.body;
+
     const user = await User.findById(req.user.id);
+
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
     }
-    user.wishlist = wishlist;
+
+    const index = user.wishlist.findIndex(
+      id => id.toString() === productId
+    );
+
+    if (index > -1) {
+      user.wishlist.splice(index, 1);
+    } else {
+      user.wishlist.push(productId);
+    }
+
     await user.save();
-    res.json({ success: true, wishlist: user.wishlist });
+
+    await user.populate("wishlist");
+
+    res.json({
+      success: true,
+      data: user.wishlist
+    });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Failed to sync wishlist', error: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
@@ -238,13 +259,17 @@ export const addToCart = async (req, res) => {
   try {
     const { productId, quantity = 1 } = req.body;
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found"
       });
+    }
+
+    if (!user.cart) {
+      user.cart = [];
     }
 
     const existingItem = user.cart.find(
