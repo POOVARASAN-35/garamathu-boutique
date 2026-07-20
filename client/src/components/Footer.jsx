@@ -107,7 +107,7 @@ export default function Footer() {
           <div className="space-y-2.5 pt-3 text-xs text-gray-400">
             <div className="flex items-center gap-3">
               <MapPin className="w-4.5 h-4.5 text-sienna-400" />
-              <span>Saree Bazaar St, Erode, Tamil Nadu</span>
+              <span>Gramathu  Boutique St, Erode, Tamil Nadu</span>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="w-4.5 h-4.5 text-sienna-400" />
