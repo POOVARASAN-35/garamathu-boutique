@@ -70,18 +70,22 @@ export default function CartPage() {
 
   // Fetch Shipping Rules
   useEffect(() => {
-    const loadRules = async () => {
-      try {
-        const res = await fetch('import.meta.env.VITE_API_URL/api/shipping-rules');
-        if (res.ok) {
-          const data = await res.json();
-          setShippingRules(data);
+      const loadRules = async () => {
+        try {
+          const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/api/shipping-rules`
+          );
+
+          if (res.ok) {
+            const data = await res.json();
+            setShippingRules(data);
+          }
+        } catch (err) {
+          console.error('Error fetching shipping rules:', err);
         }
-      } catch (err) {
-        console.error('Error fetching shipping rules:', err);
-      }
-    };
-    loadRules();
+      };
+
+      loadRules();
   }, []);
 
   // Guest population trigger
@@ -204,14 +208,17 @@ export default function CartPage() {
         notes
       };
 
-      const response = await fetch('import.meta.env.VITE_API_URL/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(orderPayload)
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/orders`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       const data = await response.json();
       if (!response.ok) {

@@ -35,7 +35,9 @@ export default function SearchOverlay({ isOpen, onClose }) {
     const delayDebounceFn = setTimeout(async () => {
       setLoading(true);
       try {
-        const response = await fetch(`import.meta.env.VITE_API_URL/api/sarees?q=${encodeURIComponent(query)}&limit=6`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/sarees?q=${encodeURIComponent(query)}&limit=6`
+        );
         const data = await response.json();
         setResults(data.sarees || []);
       } catch (error) {

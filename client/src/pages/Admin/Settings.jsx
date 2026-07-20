@@ -48,7 +48,9 @@ export default function Settings() {
   const fetchShippingRules = async () => {
     try {
       setLoadingRules(true);
-      const res = await fetch('import.meta.env.VITE_API_URL/api/shipping-rules');
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/shipping-rules`
+      );
       if (res.ok) {
         const data = await res.json();
         setRules(data);
@@ -90,7 +92,9 @@ export default function Settings() {
     }
     try {
       const tokenVal = adminToken || localStorage.getItem('admin_token');
-      const response = await fetch('import.meta.env.VITE_API_URL/api/shipping-rules', {
+      const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/shipping-rules`,
+      {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,19 +135,22 @@ export default function Settings() {
   const handleSaveEditRule = async (id) => {
     try {
       const tokenVal = adminToken || localStorage.getItem('admin_token');
-      const response = await fetch(`import.meta.env.VITE_API_URL/api/shipping-rules/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${tokenVal}`
-        },
-        body: JSON.stringify({
-          shippingCharge: Number(editCharge),
-          estimatedDeliveryDays: Number(editDays),
-          courierPartner: editCourier,
-          status: editStatus
-        })
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/shipping-rules/${id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tokenVal}`
+          },
+          body: JSON.stringify({
+            shippingCharge: Number(editCharge),
+            estimatedDeliveryDays: Number(editDays),
+            courierPartner: editCourier,
+            status: editStatus
+          })
+        }
+      );
       if (response.ok) {
         addToast('Shipping rule updated!', 'success');
         setEditingRuleId(null);
@@ -161,7 +168,9 @@ export default function Settings() {
     if (!window.confirm('Are you sure you want to delete this shipping rule?')) return;
     try {
       const tokenVal = adminToken || localStorage.getItem('admin_token');
-      const response = await fetch(`import.meta.env.VITE_API_URL/api/shipping-rules/${id}`, {
+      const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/shipping-rules/${id}`,
+      {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${tokenVal}` }
       });

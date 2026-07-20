@@ -18,9 +18,14 @@ export default function OrderSuccess() {
         return;
       }
       try {
-        const response = await fetch(`import.meta.env.VITE_API_URL/api/orders/${orderId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/orders/${orderId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
         const data = await response.json();
         if (response.ok) {
           setOrder(data);

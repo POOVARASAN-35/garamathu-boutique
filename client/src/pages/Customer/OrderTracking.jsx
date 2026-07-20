@@ -17,7 +17,9 @@ export default function OrderTracking() {
   useEffect(() => {
     const fetchOrderTracking = async () => {
       try {
-        const response = await fetch(`import.meta.env.VITE_API_URL/api/orders/track/${orderId}`);
+       const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/orders/track/${orderId}`
+        );
         const data = await response.json();
         if (response.ok) {
           setOrder(data);
