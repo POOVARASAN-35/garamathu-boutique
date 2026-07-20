@@ -115,9 +115,10 @@ export default function ImageUpload({
         reject(new Error('Network error during upload'));
       });
 
-      const uploadUrl = uploadType === 'category'
-        ? `import.meta.env.VITE_API_URL/api/upload/category-images?categoryName=${encodeURIComponent(nameVal)}`
-        : 'import.meta.env.VITE_API_URL/api/upload/product-images';
+      const uploadUrl =
+        uploadType === 'category'
+          ? `${import.meta.env.VITE_API_URL}/api/upload/category-images?categoryName=${encodeURIComponent(nameVal)}`
+          : `${import.meta.env.VITE_API_URL}/api/upload/product-images`;
 
       xhr.open('POST', uploadUrl);
       xhr.setRequestHeader('Authorization', `Bearer ${authToken}`);
