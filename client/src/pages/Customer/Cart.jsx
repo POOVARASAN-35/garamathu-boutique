@@ -152,9 +152,9 @@ export default function CartPage() {
     addToast('Quantity Updated', 'success');
   };
 
-  const handleRemoveItem = (productId, name) => {
+  const handleRemoveItem = (productId, name = "Product") => {
     dispatch(removeFromCart(productId));
-    addToast(`${name} removed from cart.`, 'info');
+    addToast(`${name} removed from cart.`, "info");
   };
 
   const handleMoveToWishlistAction = (productId, name) => {
@@ -559,7 +559,12 @@ export default function CartPage() {
                                 <Share2 className="w-4 h-4" />
                               </button>
                               <button
-                                onClick={() => handleRemoveItem(item.productId, prod.name)}
+                                onClick={() =>
+                                  handleRemoveItem(
+                                    item.productId,
+                                    prod?.name || "Product"
+                                  )
+                                }
                                 className="p-2 bg-red-50 hover:bg-red-500 text-red-600 hover:text-white rounded-xl transition-all shadow-sm"
                                 title="Remove item"
                               >
