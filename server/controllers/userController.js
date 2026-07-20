@@ -233,3 +233,48 @@ export const deleteAddress = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to delete address', error: error.message });
   }
 };
+
+export const addToCart = async (req, res) => {
+  try {
+    const { productId, quantity = 1 } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    const existingItem = user.cart.find(
+      item => item.productId.toString() === productId
+    );
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      user.cart.push({
+        productId,
+        quantity
+      });
+    }
+
+    await user.save();
+
+    await user.populate("cart.productId");
+
+    res.status(200).json({
+      success: true,
+      data: {
+        items: user.cart
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};

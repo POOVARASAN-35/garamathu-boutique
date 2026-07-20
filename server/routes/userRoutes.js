@@ -7,9 +7,9 @@ import {
   getCustomerById,
   updateWishlist,
   addAddress,
-  deleteAddress
+  deleteAddress,
+  addToCart
 } from '../controllers/userController.js';
-import { verifyUser } from '../middleware/verifyUser.js';
 import { verifyAdmin } from '../middleware/verifyAdmin.js';
 
 const router = express.Router();
@@ -20,6 +20,7 @@ router.get('/me', verifyUser, getUserProfile);
 router.get('/', verifyAdmin, getAllCustomers);
 router.get('/:id', verifyAdmin, getCustomerById);
 router.post('/wishlist', verifyUser, updateWishlist);
+router.post('/cart', verifyUser, addToCart);
 router.post('/address', verifyUser, addAddress);
 router.delete('/address/:id', verifyUser, deleteAddress);
 

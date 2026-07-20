@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const API_URL = import.meta.env.VITE_API_URL || 'import.meta.env.VITE_API_URL/api';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/users`;
 
 const getAuthHeaders = (getState) => {
   const { token } = getState().auth;
